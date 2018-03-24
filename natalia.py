@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/local/bin/python3
 # -*- coding: utf-8 -*-
 # A Simple way to send a message to telegram
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler
@@ -35,7 +35,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib.lines import Line2D
 from matplotlib.patches import Rectangle, Patch
-from matplotlib.finance import candlestick_ohlc
+from mpl_finance import candlestick_ohlc
 
 import talib as ta
 
