@@ -17,7 +17,7 @@ import json
 import random
 import datetime
 from dateutil.relativedelta import relativedelta
-import re 
+import re
 import os
 import sys
 import yaml
@@ -25,11 +25,11 @@ from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 from PIL import Image
 
 # For plotting messages / price charts
-import pandas as pd 
+import pandas as pd
 
 import requests
 
-import matplotlib 
+import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
@@ -51,7 +51,7 @@ logger.info("Running "+sys.argv[0])
 
 
 """
-# Mongodb 
+# Mongodb
 """
 client  = MongoClient('mongodb://localhost:27017')
 db      = client.natalia_tg_bot
@@ -73,7 +73,7 @@ else:
 
 BOTNAME                     = config['NATALIA_BOT_USERNAME']
 TELEGRAM_BOT_TOKEN          = config['NATALIA_BOT_TOKEN']
-FORWARD_PRIVATE_MESSAGES_TO = config['BOT_OWNER_ID'] 
+FORWARD_PRIVATE_MESSAGES_TO = config['BOT_OWNER_ID']
 ADMINS                      = config['ADMINS']
 
 EXTRA_STOPWORDS    = config['WORDCLOUD_STOPWORDS']
@@ -102,7 +102,7 @@ MESSAGES['rules']           = config['MESSAGES']['rules']
 MESSAGES['chat']        	= config['MESSAGES']['chat']
 #MESSAGES['livestream']      = config['MESSAGES']['livestream']
 MESSAGES['exchanges']       = config['MESSAGES']['exchanges']
-MESSAGES['shill']           = config['MESSAGES']['shill']  
+MESSAGES['shill']           = config['MESSAGES']['shill']
 #MESSAGES['teamspeakbadges'] = config['MESSAGES']['teamspeakbadges']
 #MESSAGES['fomobot']         = config['MESSAGES']['fomobot']
 #MESSAGES['donate']          = config['MESSAGES']['donate']
@@ -111,7 +111,7 @@ ADMINS_JSON                 = config['MESSAGES']['admins_json']
 
 
 
-# Rooms 
+# Rooms
 WP_ROOM     = -1001103012181      # Neblio Main Channel
 #SP_ROOM     = -1001120581521      # Shitpool
 WP_ADMIN    = -279751667         # Neblio Staff Room
@@ -132,12 +132,12 @@ ROOM_ID_TO_NAME = {
 	#SP_FEED : 'Shitpool Feed channel'
 }
 
-# Rooms where chat/gifs/etc is logged for stats etc 
+# Rooms where chat/gifs/etc is logged for stats etc
 #LOG_ROOMS = [ WP_ROOM, SP_ROOM, TEST_ROOM ]
 LOG_ROOMS = [ WP_ROOM ]
 
 
-# Storing last 'welcome' message ids 
+# Storing last 'welcome' message ids
 PRIOR_WELCOME_MESSAGE_ID = {
 	WP_ROOM   : 0,
 	#SP_ROOM   : 0,
@@ -147,7 +147,7 @@ PRIOR_WELCOME_MESSAGE_ID = {
 }
 
 # Storing last 'removal' of uncompress images, message ids
-LASTUNCOMPRESSED_IMAGES = { 
+LASTUNCOMPRESSED_IMAGES = {
 	WP_ROOM   : 0,
 	#SP_ROOM   : 0,
 	#MH_ROOM   : 0,
@@ -166,7 +166,7 @@ LASTUNCOMPRESSED_IMAGES = {
 
 
 #################################
-# Begin bot.. 
+# Begin bot..
 
 bot = telegram.Bot(token=TELEGRAM_BOT_TOKEN)
 
@@ -189,9 +189,9 @@ def restricted(func):
 
 
 #################################
-#			UTILS	
+#			UTILS
 
-# Resolve message data to a readable name 	 		
+# Resolve message data to a readable name
 def get_name(update):
         try:
             name = update.message.from_user.first_name
@@ -206,20 +206,20 @@ def get_name(update):
 
 
 #################################
-#		BEGIN BOT COMMANDS 		
+#		BEGIN BOT COMMANDS
 
-# Returns the user their user id 
+# Returns the user their user id
 def getid(bot, update):
 	pprint(update.message.chat.__dict__, indent=4)
 	update.message.reply_text(str(update.message.chat.first_name)+" :: "+str(update.message.chat.id))
 
-# Welcome message 
+# Welcome message
 def start(bot, update):
 
-	user_id = update.message.from_user.id 
+	user_id = update.message.from_user.id
 	chat_id = update.message.chat.id
 	message_id = update.message.message_id
-	user_id = update.message.from_user.id 
+	user_id = update.message.from_user.id
 	name = get_name(update)
 	logger.info("/start - "+name)
 
@@ -227,7 +227,7 @@ def start(bot, update):
 
 	if (update.message.chat.type == 'group') or (update.message.chat.type == 'supergroup'):
 		msg = random.choice(MESSAGES['pmme']) % (name)
-		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1) 
+		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1)
 	else:
 		msg = MESSAGES['rules']
 
@@ -244,7 +244,7 @@ def start(bot, update):
 
 def about(bot, update):
 
-	user_id = update.message.from_user.id 
+	user_id = update.message.from_user.id
 	chat_id = update.message.chat.id
 	message_id = update.message.message_id
 	name = get_name(update)
@@ -252,7 +252,7 @@ def about(bot, update):
 
 	if (update.message.chat.type == 'group') or (update.message.chat.type == 'supergroup'):
 		msg = random.choice(MESSAGES['pmme']) % (name)
-		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1) 
+		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1)
 	else:
 		msg = MESSAGES['about']
 
@@ -261,12 +261,12 @@ def about(bot, update):
 		info = { 'user_id': user_id, 'request': 'about', 'timestamp': timestamp }
 		db.pm_requests.insert(info)
 
-		bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1) 
+		bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
 
 
 def rules(bot, update):
 
-	user_id = update.message.from_user.id 
+	user_id = update.message.from_user.id
 	chat_id = update.message.chat.id
 	message_id = update.message.message_id
 	name = get_name(update)
@@ -274,7 +274,7 @@ def rules(bot, update):
 
 	if (update.message.chat.type == 'group') or (update.message.chat.type == 'supergroup'):
 		msg = random.choice(MESSAGES['pmme']) % (name)
-		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1) 
+		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1)
 	else:
 		msg = MESSAGES['rules']
 
@@ -282,12 +282,12 @@ def rules(bot, update):
 		info = { 'user_id': user_id, 'request': 'rules', 'timestamp': timestamp }
 		db.pm_requests.insert(info)
 
-		bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1) 
+		bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
 
 
 def admins(bot, update):
 
-	user_id = update.message.from_user.id 
+	user_id = update.message.from_user.id
 	chat_id = update.message.chat.id
 	message_id = update.message.message_id
 	name = get_name(update)
@@ -295,12 +295,12 @@ def admins(bot, update):
 
 	if (update.message.chat.type == 'group') or (update.message.chat.type == 'supergroup'):
 		msg = random.choice(MESSAGES['pmme']) % (name)
-		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1) 
+		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1)
 	else:
 		msg = "*Neblio Admins*\n\n"
 		keys = list(ADMINS_JSON.keys())
 		random.shuffle(keys)
-		for k in keys: 
+		for k in keys:
 			msg += ""+k+"\n"
 			msg += ADMINS_JSON[k]['adminOf']+"\n"
 			msg += "_"+ADMINS_JSON[k]['about']+"_"
@@ -311,12 +311,12 @@ def admins(bot, update):
 		info = { 'user_id': user_id, 'request': 'admins', 'timestamp': timestamp }
 		db.pm_requests.insert(info)
 
-		bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1) 
+		bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
 
 
 def teamspeak(bot, update):
 
-	user_id = update.message.from_user.id 
+	user_id = update.message.from_user.id
 	chat_id = update.message.chat.id
 	message_id = update.message.message_id
 	name = get_name(update)
@@ -324,7 +324,7 @@ def teamspeak(bot, update):
 
 	if (update.message.chat.type == 'group') or (update.message.chat.type == 'supergroup'):
 		msg = random.choice(MESSAGES['pmme']) % (name)
-		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1) 
+		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1)
 	else:
 		msg = MESSAGES['teamspeak']
 
@@ -333,12 +333,12 @@ def teamspeak(bot, update):
 		db.pm_requests.insert(info)
 
 		bot.sendSticker(chat_id=chat_id, sticker="CAADBAADqgIAAndCvAiTIPeFFHKWJQI", disable_notification=False)
-		bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1) 
+		bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
 
 
 def teamspeakbadges(bot, update):
 
-	user_id = update.message.from_user.id 
+	user_id = update.message.from_user.id
 	chat_id = update.message.chat.id
 	message_id = update.message.message_id
 	name = get_name(update)
@@ -346,7 +346,7 @@ def teamspeakbadges(bot, update):
 
 	if (update.message.chat.type == 'group') or (update.message.chat.type == 'supergroup'):
 		msg = random.choice(MESSAGES['pmme']) % (name)
-		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1) 
+		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1)
 	else:
 		msg = MESSAGES['teamspeakbadges']
 
@@ -354,12 +354,12 @@ def teamspeakbadges(bot, update):
 		info = { 'user_id': user_id, 'request': 'teamspeakbadges', 'timestamp': timestamp }
 		db.pm_requests.insert(info)
 
-		bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1) 
+		bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
 
-		
+
 def telegram(bot, update):
 
-	user_id = update.message.from_user.id 
+	user_id = update.message.from_user.id
 	chat_id = update.message.chat.id
 	message_id = update.message.message_id
 	name = get_name(update)
@@ -367,7 +367,7 @@ def telegram(bot, update):
 
 	if (update.message.chat.type == 'group') or (update.message.chat.type == 'supergroup'):
 		msg = random.choice(MESSAGES['pmme']) % (name)
-		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1) 
+		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1)
 	else:
 		msg = MESSAGES['telegram']
 
@@ -375,11 +375,11 @@ def telegram(bot, update):
 		info = { 'user_id': user_id, 'request': 'telegram', 'timestamp': timestamp }
 		db.pm_requests.insert(info)
 
-		bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1) 
-		
+		bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
+
 def chat(bot, update):
 
-	user_id = update.message.from_user.id 
+	user_id = update.message.from_user.id
 	chat_id = update.message.chat.id
 	message_id = update.message.message_id
 	name = get_name(update)
@@ -387,7 +387,7 @@ def chat(bot, update):
 
 	if (update.message.chat.type == 'group') or (update.message.chat.type == 'supergroup'):
 		msg = random.choice(MESSAGES['pmme']) % (name)
-		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1) 
+		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1)
 	else:
 		msg = MESSAGES['chat']
 
@@ -395,12 +395,12 @@ def chat(bot, update):
 		info = { 'user_id': user_id, 'request': 'chat', 'timestamp': timestamp }
 		db.pm_requests.insert(info)
 
-		bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1) 
+		bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
 
 
 def livestream(bot, update):
 
-	user_id = update.message.from_user.id 
+	user_id = update.message.from_user.id
 	chat_id = update.message.chat.id
 	message_id = update.message.message_id
 	name = get_name(update)
@@ -408,7 +408,7 @@ def livestream(bot, update):
 
 	if (update.message.chat.type == 'group') or (update.message.chat.type == 'supergroup'):
 		msg = random.choice(MESSAGES['pmme']) % (name)
-		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1) 
+		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1)
 	else:
 		msg = MESSAGES['livestream']
 
@@ -417,12 +417,12 @@ def livestream(bot, update):
 		db.pm_requests.insert(info)
 
 		bot.sendSticker(chat_id=chat_id, sticker="CAADBAADcwIAAndCvAgUN488HGNlggI", disable_notification=False)
-		bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1) 
+		bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
 
 
 def fomobot(bot, update):
 
-	user_id = update.message.from_user.id 
+	user_id = update.message.from_user.id
 	chat_id = update.message.chat.id
 	message_id = update.message.message_id
 	name = get_name(update)
@@ -430,7 +430,7 @@ def fomobot(bot, update):
 
 	if (update.message.chat.type == 'group') or (update.message.chat.type == 'supergroup'):
 		msg = random.choice(MESSAGES['pmme']) % (name)
-		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1) 
+		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1)
 	else:
 		msg = MESSAGES['fomobot']
 
@@ -438,12 +438,12 @@ def fomobot(bot, update):
 		info = { 'user_id': user_id, 'request': 'fomobot', 'timestamp': timestamp }
 		db.pm_requests.insert(info)
 
-		bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1) 
+		bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
 
 
 def exchanges(bot, update):
 
-	user_id = update.message.from_user.id 
+	user_id = update.message.from_user.id
 	chat_id = update.message.chat.id
 	message_id = update.message.message_id
 	name = get_name(update)
@@ -451,7 +451,7 @@ def exchanges(bot, update):
 
 	if (update.message.chat.type == 'group') or (update.message.chat.type == 'supergroup'):
 		msg = random.choice(MESSAGES['pmme']) % (name)
-		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1) 
+		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1)
 	else:
 		msg = MESSAGES['exchanges']
 
@@ -459,13 +459,13 @@ def exchanges(bot, update):
 		info = { 'user_id': user_id, 'request': 'exchanges', 'timestamp': timestamp }
 		db.pm_requests.insert(info)
 
-		bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1) 
+		bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
 		# bot.forwardMessage(chat_id=WP_ADMIN, from_chat_id=chat_id, message_id=message_id)
 
 
 def donation(bot, update):
 
-	user_id = update.message.from_user.id 
+	user_id = update.message.from_user.id
 	chat_id = update.message.chat.id
 	message_id = update.message.message_id
 	name = get_name(update)
@@ -473,7 +473,7 @@ def donation(bot, update):
 
 	if (update.message.chat.type == 'group') or (update.message.chat.type == 'supergroup'):
 		msg = random.choice(MESSAGES['pmme']) % (name)
-		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1) 
+		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1)
 	else:
 
 		timestamp = datetime.datetime.utcnow()
@@ -487,19 +487,19 @@ def donation(bot, update):
 # ADMIN FUNCTIONS
 
 @restricted
-def topstickers(bot,update):	
+def topstickers(bot,update):
 
-	user_id = update.message.from_user.id 
+	user_id = update.message.from_user.id
 	chat_id = update.message.chat.id
 
 	start = datetime.datetime.today().replace(hour=0,minute=0,second=0)
 	start = start - relativedelta(days=3)
 
-	pipe = [ 
-		{ "$match": { 'timestamp': {'$gt': start } } }, 
-		{ "$group": { "_id": "$sticker_id", "total": { "$sum": 1 }  } }, 
-		{ "$sort": { "total": -1 } }, 
-		{ "$limit": 3 }   
+	pipe = [
+		{ "$match": { 'timestamp': {'$gt': start } } },
+		{ "$group": { "_id": "$sticker_id", "total": { "$sum": 1 }  } },
+		{ "$sort": { "total": -1 } },
+		{ "$limit": 3 }
 	]
 	gifs = list(db.natalia_stickers.aggregate(pipe))
 
@@ -644,7 +644,7 @@ def todaysusers(bot, update):
 	os.remove(PATH_USERNAMES)
 
 
-@restricted 
+@restricted
 def promotets(bot, update):
 
 	pprint('promotets...')
@@ -655,7 +655,7 @@ def promotets(bot, update):
 
 	if len(fmsg) > 0:
 
-		 rooms = [WP_ROOM]
+		rooms = [WP_ROOM]
 		#rooms = [WP_ROOM, SP_ROOM, MH_ROOM, WP_FEED, SP_FEED]
 
 		for r in rooms:
@@ -665,19 +665,19 @@ def promotets(bot, update):
 			msg = bot.sendMessage(chat_id=r, parse_mode="Markdown", text=fmsg[0]+"\n-------------------\n*/announcement from "+name+"*" )
 
 
-			#if r in [WP_ROOM, SP_ROOM, MH_ROOM]: 
+			#if r in [WP_ROOM, SP_ROOM, MH_ROOM]:
 			if r in [WP_ROOM]:
 				bot.pin_chat_message(r, msg.message_id, disable_notification=True)
 
 			bot.sendMessage(chat_id=r, parse_mode="Markdown", text="Message me ("+BOTNAME.replace('_','\_')+") - to see details on how to connect to [teamspeak](https://whalepool.io/connect/teamspeak) also listen in to the listream here: livestream.whalepool.io", disable_web_page_preview=True )
 			bot.sendMessage(chat_id=chat_id, parse_mode="Markdown", text="Broadcast sent to "+ROOM_ID_TO_NAME[r])
 
-			
+
 
 	else:
 		bot.sendMessage(chat_id=chat_id, text="Please incldue a message in quotes to spam/shill the teamspeak message" )
 
-	 
+
 @restricted
 def shill(bot, update):
 
@@ -692,7 +692,7 @@ def shill(bot, update):
 	for r in rooms:
 		bot.sendMessage(chat_id=r, parse_mode="Markdown", text=MESSAGES['shill'],disable_web_page_preview=1)
 		bot.sendMessage(chat_id=chat_id, parse_mode="Markdown", text="Shilled in "+ROOM_ID_TO_NAME[r])
-	
+
 
 
 @restricted
@@ -701,27 +701,27 @@ def commandstats(bot, update):
 	start = datetime.datetime.today().replace(day=1,hour=0,minute=0,second=0)
 	# start = start - relativedelta(days=30)
 
-	pipe = [ 
-		{ "$match": { 'timestamp': {'$gt': start } } }, 
-		{ "$group": { 
-			"_id": { 
-				"year" : { "$year" : "$timestamp" },        
-				"month" : { "$month" : "$timestamp" },        
+	pipe = [
+		{ "$match": { 'timestamp': {'$gt': start } } },
+		{ "$group": {
+			"_id": {
+				"year" : { "$year" : "$timestamp" },
+				"month" : { "$month" : "$timestamp" },
 				"day" : { "$dayOfMonth" : "$timestamp" },
 				"request": "$request"
 			},
-			"total": { "$sum": 1 }  
-			} 
-		}, 
-		{ "$sort": { "total": -1  } }, 
-		# { "$limit": 3 }   
+			"total": { "$sum": 1 }
+			}
+		},
+		{ "$sort": { "total": -1  } },
+		# { "$limit": 3 }
 	]
 	res = list(db.pm_requests.aggregate(pipe))
 
 	output = {}
 	totals = {}
 
-	for r in res: 
+	for r in res:
 
 		key = r['_id']['day']
 		if not(key in output):
@@ -729,7 +729,7 @@ def commandstats(bot, update):
 
 		request = r['_id']['request']
 		if not(request in output[key]):
-			output[key][r['_id']['request']] = 0 
+			output[key][r['_id']['request']] = 0
 
 		if not(request in totals):
 			totals[request] = 0
@@ -746,7 +746,7 @@ def commandstats(bot, update):
 		for request, count in output[day].items():
 			reply += request+" - "+str(count)+"\n"
 
-			
+
 	reply += "--------------------\n"
 	reply += "*Totals*\n"
 	for request in totals:
@@ -756,32 +756,32 @@ def commandstats(bot, update):
 	bot.sendMessage(chat_id=chat_id, text=reply, parse_mode="Markdown" )
 
 
-@restricted 
+@restricted
 def joinstats(bot,update):
 
 	chat_id = update.message.chat_id
 	start = datetime.datetime.today().replace(day=1,hour=0,minute=0,second=0)
 	# start = start - relativedelta(days=30)
 
-	pipe = [ 
-		{ "$match": { 'timestamp': {'$gt': start } } }, 
-		{ "$group": { 
-			"_id": {     
+	pipe = [
+		{ "$match": { 'timestamp': {'$gt': start } } },
+		{ "$group": {
+			"_id": {
 				"day" : { "$dayOfMonth" : "$timestamp" },
 				"chat_id": "$chat_id"
 			},
-			"total": { "$sum": 1 }  
-			} 
-		}, 
-		{ "$sort": { "total": -1  } }, 
-		# { "$limit": 3 }   
+			"total": { "$sum": 1 }
+			}
+		},
+		{ "$sort": { "total": -1  } },
+		# { "$limit": 3 }
 	]
 	res = list(db.room_joins.aggregate(pipe))
 
 	output = {}
 	totals = {}
 
-	for r in res: 
+	for r in res:
 
 		key = r['_id']['day']
 		if not(key in output):
@@ -789,7 +789,7 @@ def joinstats(bot,update):
 
 		roomid = r['_id']['chat_id']
 		if not(roomid in output[key]):
-			output[key][roomid] = 0 
+			output[key][roomid] = 0
 
 		if not(roomid in totals):
 			totals[roomid] = 0
@@ -849,28 +849,28 @@ def fooCandlestick(ax, quotes, width=0.029, colorup='#FFA500', colordown='#222',
 
 	return lines, boxes
 
-# Special function for testing purposes 
+# Special function for testing purposes
 @restricted
 def whalepooloverprice(bot, update):
-	user_id = update.message.from_user.id 
+	user_id = update.message.from_user.id
 	chat_id = update.message.chat_id
 
 
 	bot.sendMessage(chat_id=61697695, text="Processing data" )
 
-	
+
 	# Room only
 	mongo_match = { "$match": { 'chat_id': WP_ROOM } }
 
 
 	do = 'hourly'
 
-	if do == 'daily': 
+	if do == 'daily':
 		bar_width = 0.864
 		api_timeframe = '1D'
 		date_group_format = "%Y-%m-%d"
 
-	if do == 'hourly': 
+	if do == 'hourly':
 		bar_width         = 0.029
 		api_timeframe     = '1h'
 		date_group_format = "%Y-%m-%dT%H"
@@ -900,7 +900,7 @@ def whalepooloverprice(bot, update):
 	  { "$group": {
 			"_id":    { "$dateToString": { "format": date_group_format, "date": "$timestamp" } },
 			"count":  { "$sum": 1 }
-		}	
+		}
 	  },
 	]
 	rows = list(db.room_joins.aggregate(pipe))
@@ -923,7 +923,7 @@ def whalepooloverprice(bot, update):
 	  { "$group": {
 			"_id":    { "$dateToString": { "format": date_group_format, "date": "$timestamp" } },
 			"count":  { "$sum": 1 }
-		}	
+		}
 	  },
 	]
 	rows = list(db.natalia_textmessages.aggregate(pipe))
@@ -945,7 +945,7 @@ def whalepooloverprice(bot, update):
 	  { "$group": {
 			"_id":    { "$dateToString": { "format": date_group_format, "date": "$timestamp" } },
 			"count":  { "$sum": 1 }
-		}	
+		}
 	  },
 	]
 	rows = list(db.natalia_stickers.aggregate(pipe))
@@ -964,7 +964,7 @@ def whalepooloverprice(bot, update):
 
 	# Enable a Grid
 	plt.rc('axes', grid=True)
-	# Set Grid preferences 
+	# Set Grid preferences
 	plt.rc('grid', color='0.75', linestyle='-', linewidth=0.5)
 
 	# Create a figure, 16 inches by 12 inches
@@ -978,13 +978,13 @@ def whalepooloverprice(bot, update):
 	rect3 = [left, 0.3, width, 0.2]
 	rect4 = [left, 0.1, width, 0.2]
 
-	ax1 = fig.add_axes(rect1, facecolor='#f6f6f6')  
+	ax1 = fig.add_axes(rect1, facecolor='#f6f6f6')
 	ax2 = fig.add_axes(rect2, facecolor='#f6f6f6', sharex=ax1)
 	ax3 = fig.add_axes(rect3, facecolor='#f6f6f6', sharex=ax1)
 	ax4 = fig.add_axes(rect4, facecolor='#f6f6f6', sharex=ax1)
 
 
-	ax1 = fig.add_axes(rect1, facecolor='#f6f6f6')  
+	ax1 = fig.add_axes(rect1, facecolor='#f6f6f6')
 	ax1.set_xlabel('date')
 
 	ax1.set_title('Whalepool Messages, Gif & User joins per hour over price', fontsize=20, fontweight='bold')
@@ -1043,7 +1043,7 @@ def whalepooloverprice(bot, update):
 
 
 
-	#im = Image.open(LOGO_PATH)	
+	#im = Image.open(LOGO_PATH)
 	#fig.figimage(   im,   105,  (fig.bbox.ymax - im.size[1])-29)
 	PATH_MSGS_OVER_PRICE = PATH+"messages_over_price.png"
 
@@ -1068,22 +1068,22 @@ def whalepooloverprice(bot, update):
 
 
 
-# Special function for testing purposes 
+# Special function for testing purposes
 @restricted
 def special(bot, update):
-	user_id = update.message.from_user.id 
+	user_id = update.message.from_user.id
 	chat_id = update.message.chat_id
 	if user_id == 61697695:
 
 		# Test Emoji
 		text = ''
-		# Red 
+		# Red
 		text += '❤'
 		# Orange
 		text += '💛'
-		# Green 
+		# Green
 		text += '💚'
-		# Blue 
+		# Blue
 		text += '💙'
 		# Black
 		text += '🖤'
@@ -1092,20 +1092,20 @@ def special(bot, update):
 
 
 #################################
-#		BOT EVENT HANDLING		
+#		BOT EVENT HANDLING
 
 
 def new_chat_member(bot, update):
 	""" Welcomes new chat member """
 
-	user_id = update.message.from_user.id 
-	message_id = update.message.message_id 
+	user_id = update.message.from_user.id
+	message_id = update.message.message_id
 	chat_id = update.message.chat.id
 	name = get_name(update)
 
 	#if (chat_id == WP_ROOM) or (chat_id == SP_ROOM) or (chat_id == WP_WOMENS):
 	if (chat_id == WP_ROOM):
-		# Check user has a profile pic.. 
+		# Check user has a profile pic..
 
 		timestamp = datetime.datetime.utcnow()
 
@@ -1132,19 +1132,19 @@ def new_chat_member(bot, update):
 			pprint('Last Msgs [ chat_id ]: '+str(PRIOR_WELCOME_MESSAGE_ID[chat_id]))
 
 			try:
-				if PRIOR_WELCOME_MESSAGE_ID[chat_id] > 0: 
+				if PRIOR_WELCOME_MESSAGE_ID[chat_id] > 0:
 					bot.delete_message(chat_id=chat_id, message_id=PRIOR_WELCOME_MESSAGE_ID[chat_id])
 			except:
 				pass
 
 
-			#if len(name) > 50: 
+			#if len(name) > 50:
 			#	if chat_id in ROOM_ID_TO_NAME:
 			#		bot.restrict_chat_member(chat_id, user_id, until_date=(datetime.datetime.now() + relativedelta(years=2)), can_send_messages=False, can_send_media_messages=False, can_send_other_messages=False, can_add_web_page_previews=False)
 
 
 
-		
+
 			logger.info("welcoming - "+name)
 			msg = random.choice(MESSAGES['welcome']) % (name)
 
@@ -1153,7 +1153,7 @@ def new_chat_member(bot, update):
 
 			if profile_pics.total_count == 0:
 				msg += " - Also, please set a profile pic!!"
-			message = bot.sendMessage(chat_id=chat_id,reply_to_message_id=message_id,text=msg)     
+			message = bot.sendMessage(chat_id=chat_id,reply_to_message_id=message_id,text=msg)
 
 			PRIOR_WELCOME_MESSAGE_ID[chat_id] = int(message.message_id)
 
@@ -1173,14 +1173,14 @@ def new_chat_member(bot, update):
 
 def left_chat_member(bot, update):
 	""" Says Goodbye to chat member """
-	# Disabled # Spammy # Not needed # Zero Value add 
-	return False 
+	# Disabled # Spammy # Not needed # Zero Value add
+	return False
 
 	# name = get_name(update)
 	# logger.info(message.left_chat_member.first_name+' left chat '+message.chat.title)
 	# name = get_name(update)
 	# msg = random.choice(MESSAGES['goodbye']) % (name)
-	# bot.sendMessage(chat_id=update.message.chat.id,text=msg,parse_mode="Markdown",disable_web_page_preview=1) 
+	# bot.sendMessage(chat_id=update.message.chat.id,text=msg,parse_mode="Markdown",disable_web_page_preview=1)
 
 
 
@@ -1188,9 +1188,9 @@ def left_chat_member(bot, update):
 def log_message_private(bot, update):
 #	pprint(update.__dict__, indent=4)
 	# pprint(update.message.__dict__, indent=4)
-	username = update.message.from_user.username 
-	user_id = update.message.from_user.id 
-	message_id = update.message.message_id 
+	username = update.message.from_user.username
+	user_id = update.message.from_user.id
+	message_id = update.message.message_id
 	chat_id = update.message.chat.id
 	name = get_name(update)
 
@@ -1203,15 +1203,15 @@ def log_message_private(bot, update):
 
 # Just log/handle a normal message
 def echo(bot, update):
-	username = update.message.from_user.username 
-	user_id = update.message.from_user.id 
-	message_id = update.message.message_id 
+	username = update.message.from_user.username
+	user_id = update.message.from_user.id
+	message_id = update.message.message_id
 	chat_id = update.message.chat.id
 
 	if username != None:
 		message = username+': '+update.message.text
 		pprint(str(chat_id)+" - "+str(message))
-	
+
 		name = get_name(update)
 		timestamp = datetime.datetime.utcnow()
 
@@ -1227,29 +1227,29 @@ def echo(bot, update):
 
 
 def photo_message(bot, update):
-	user_id = update.message.from_user.id 
-	message_id = update.message.message_id 
+	user_id = update.message.from_user.id
+	message_id = update.message.message_id
 	chat_id = update.message.chat.id
 	caption = update.message.caption
 
-	# Picture has a caption ? 
+	# Picture has a caption ?
 	if caption != None:
 
 		# Find hashtags in the caption
 		hashtags = re.findall(r'#\w*', caption)
 
-		# Did we find any ? 
+		# Did we find any ?
 		if len(hashtags) > 0:
 
 			# Any matching ones, default = False
 			legit_hashtag = False
 
-			# Itterate hashtags 
+			# Itterate hashtags
 			for e in hashtags:
 				if legit_hashtag == False:
 					legit_hashtag = forward_hashtags.get(e,False)
 
-			# Post is allowed to be forwarded 
+			# Post is allowed to be forwarded
 			if legit_hashtag != False:
 				bot.forwardMessage(chat_id=legit_hashtag, from_chat_id=chat_id, message_id=message_id)
 
@@ -1264,23 +1264,23 @@ def photo_message(bot, update):
 
 def sticker_message(bot, update):
 	user_id = update.message.from_user.id
-	message_id = update.message.message_id 
-	chat_id = update.message.chat.id 
+	message_id = update.message.message_id
+	chat_id = update.message.chat.id
 	timestamp = datetime.datetime.utcnow()
-	username = update.message.from_user.username 
+	username = update.message.from_user.username
 	name = get_name(update)
 
-	# if chat_id in LOG_ROOMS: 
-	if chat_id: 
+	# if chat_id in LOG_ROOMS:
+	if chat_id:
 
 		pprint('STICKER')
-		
+
 		sticker_id = update.message.sticker.file_id
-		
+
 		# file = bot.getFile(sticker_id)
 		pprint(update.message.sticker.__dict__)
 		# pprint(file.__dict__)
-		
+
 		if username != None:
 			info = { 'user_id': user_id, 'chat_id': chat_id, 'message_id': message_id, 'sticker_id': sticker_id, 'timestamp': timestamp }
 			db.natalia_stickers.insert(info)
@@ -1292,8 +1292,8 @@ def sticker_message(bot, update):
 
 
 def video_message(bot, update):
-	user_id = update.message.from_user.id 
-	message_id = update.message.message_id 
+	user_id = update.message.from_user.id
+	message_id = update.message.message_id
 	chat_id = update.message.chat.id
 	timestamp = datetime.datetime.utcnow()
 	name = get_name(update)
@@ -1304,35 +1304,35 @@ def video_message(bot, update):
 
 
 def document_message(bot, update):
-	user_id = update.message.from_user.id 
-	message_id = update.message.message_id 
+	user_id = update.message.from_user.id
+	message_id = update.message.message_id
 	chat_id = update.message.chat.id
 	timestamp = datetime.datetime.utcnow()
-	username = update.message.from_user.username 
+	username = update.message.from_user.username
 	name = get_name(update)
 
 
 
-	if chat_id in LOG_ROOMS: 
+	if chat_id in LOG_ROOMS:
 
 		images = ['image/jpeg','image/png']
 		if update.message.document.mime_type in images:
 
-			if LASTUNCOMPRESSED_IMAGES[chat_id] > 0: 
+			if LASTUNCOMPRESSED_IMAGES[chat_id] > 0:
 				bot.delete_message(chat_id=chat_id, message_id=LASTUNCOMPRESSED_IMAGES[chat_id])
 
 			bot.delete_message(chat_id=chat_id, message_id=message_id)
 			message = bot.sendMessage(chat_id=chat_id, text=name+", I deleted that pic you just posted because it is an uncompressed format, please use the \'compress\' format when posting pictures.",parse_mode="Markdown",disable_web_page_preview=1)
 			LASTUNCOMPRESSED_IMAGES[chat_id] = int(message.message_id)
 
-		
+
 
 		if update.message.document.mime_type == 'video/mp4':
 
 			pprint('VIDEO')
-			
+
 			file_id = update.message.document.file_id
-		
+
 			if username != None:
 				info = { 'user_id': user_id, 'chat_id': chat_id, 'message_id': message_id, 'file_id': file_id, 'timestamp': timestamp }
 				db.natalia_gifs.insert(info)
@@ -1343,8 +1343,8 @@ def document_message(bot, update):
 
 
 def links_and_hashtag_messages(bot, update):
-	user_id = update.message.from_user.id 
-	message_id = update.message.message_id 
+	user_id = update.message.from_user.id
+	message_id = update.message.message_id
 	chat_id = update.message.chat.id
 	name = get_name(update)
 
@@ -1352,12 +1352,12 @@ def links_and_hashtag_messages(bot, update):
 	find_shill = re.findall(SHILL_DETECTOR, update.message.text)
 	if (len(find_shill) > 0) and chat_id in ROOM_ID_TO_NAME:
 
-		reply = 'Whalepool does not allow users to post personal affiliate links. This prevents many problems that can poison a community. Whalepool pays for all staff, servers, competitions and costs through affiliaite revenue, thus we ask users to support whalepool by using the community affiliate links instead.  ' 
+		reply = 'Whalepool does not allow users to post personal affiliate links. This prevents many problems that can poison a community. Whalepool pays for all staff, servers, competitions and costs through affiliaite revenue, thus we ask users to support whalepool by using the community affiliate links instead.  '
 
-		for s in COUNTER_SHILL: 
+		for s in COUNTER_SHILL:
 
-			found = re.findall(s['regex'], update.message.text) 
-			if len(found) > 0: 
+			found = re.findall(s['regex'], update.message.text)
+			if len(found) > 0:
 				reply += "\nThe user "+name+" recommended "+s['title']+", to signup on "+s['title']+" please use the following link: "+s['link']+""
 
 
@@ -1375,12 +1375,12 @@ def links_and_hashtag_messages(bot, update):
 
 		# Ban the bad actor
 		bot.kick_chat_member(chat_id=chat_id, user_id=user_id)
-			
 
 
 
 
-	urls = [] 
+
+	urls = []
 	legit_hashtag = False
 	for e in update.message.entities:
 		ent = update.message.text[e.offset:(e.length+e.offset)]
@@ -1391,8 +1391,8 @@ def links_and_hashtag_messages(bot, update):
 		if e.type == 'url':
 			urls.append(ent)
 
-	# Post is allowed to be forwarded 
-	forward = False 
+	# Post is allowed to be forwarded
+	forward = False
 	if legit_hashtag != False:
 		forward = legit_hashtag
 
@@ -1447,7 +1447,7 @@ dp.add_handler(CommandHandler('joinstats',joinstats))
 # Welcome
 dp.add_handler(MessageHandler(Filters.status_update.new_chat_members, new_chat_member))
 
-# Goodbye 
+# Goodbye
 dp.add_handler(MessageHandler(Filters.status_update.left_chat_member, left_chat_member))
 
 # Photo message
@@ -1462,7 +1462,7 @@ dp.add_handler(MessageHandler(Filters.video, video_message))
 # Links & Hashtags
 dp.add_handler(MessageHandler((Filters.entity(MessageEntity.HASHTAG) | Filters.entity(MessageEntity.URL)), links_and_hashtag_messages))
 
-# Documents 
+# Documents
 dp.add_handler(MessageHandler(Filters.document, document_message))
 
 # Someone private messages Natalia
@@ -1478,15 +1478,15 @@ dp.add_error_handler(error)
 
 
 #################################
-# Polling 
+# Polling
 logger.info("Starting polling")
 updater.start_polling()
 
 
 # PikaWrapper()
-	
-	
-	
 
 
-	 
+
+
+
+

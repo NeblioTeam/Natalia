@@ -2,7 +2,7 @@
 # The username of your bot as set with the botfather
 NATALIA_BOT_USERNAME: "@My_Natalia_Bot"
 
-# The bot token supplied by botfather 
+# The bot token supplied by botfather
 NATALIA_BOT_TOKEN: "my-botfather-token"
 
 # The telegram Id of the bot owner
@@ -13,15 +13,15 @@ ADMINS:
   - 123456789  # my-telegram-user-id
 
 
-# Stop words for wordcloud 
-WORDCLOUD_STOPWORDS: 
+# Stop words for wordcloud
+WORDCLOUD_STOPWORDS:
   - dont
   - include
   - these
   - words
-  - in 
+  - in
   - the
-  - wordcloud 
+  - wordcloud
 
 # Forward URLS
 # URLS matching this regex will look to be forwarded to your 'feed' room
@@ -86,7 +86,7 @@ MESSAGES:
    #- "Welcome %s, I'm Natalia, group secretary. Please PM (@WPrules_bot) see chat rules."
    - "Hi %s, welcome to the group"
 
-  # A special welcome message for an individually special room 
+  # A special welcome message for an individually special room
   welcome_special: 'Welcome %s, this is a special chat group with a special welcome message'
 
   # Goodbye messages when users leave your chat
@@ -106,7 +106,7 @@ MESSAGES:
   start: >
    Hi %s, Welcome to X
    Please click one of the links to see how i can help you:
-   /rules  - See Whalepool Rules
+   /rules  - See Rules
    /about - about us
    /admins - See list of admins to contact for help.
    /teamspeak - How to connect to teamspeak
@@ -121,41 +121,51 @@ MESSAGES:
    %s, this is your admin control:
    /topstickers - posts the top 3 stickers from the last 3 days into the main room chat
    /topgif - post the top gif to whalepool + feed
-   /topgifposters - post who are the top 5 gif posters 
+   /topgifposters - post who are the top 5 gif posters
    /todayinwords - Today in words...
    /todaysusers - Wordcloiud of whos active today
    /promotets 'message' - spam / promote teamspeak with a specified message.
    /shill - spam / promote various exchanges.
    /commandstats - get the command stats since the start of the month
    /joinstats - get the join stats since the start of the month
-   /whalepooloverprice - list the user gifs, user messages and user joins per hour over price  
+   /whalepooloverprice - list the user gifs, user messages and user joins per hour over price
 
   # About page
-  about: > 
-   *About X*
+  about: >
+   *About Neblio*
+
    Neblio is a North American decentralized opensource BAAS platform:
+
    Whitepaper & Roadmap: https://nebl.io/roadmap/
+
    Team: https://nebl.io/about/
+
    Contact: https://nebl.io/contact/
+
    Slack: https://neblio.slack.com/
-   Discord: https://discord.gg/PFt3bVw   
+
+   Discord: https://discord.gg/PFt3bVw
+
    Twitter: https://twitter.com/NeblioTeam
+
    Facebook: https://www.facebook.com/neblioteam/
+
    Reddit: http://reddit.com/r/neblio
+
    Telegram: https://t.me/joinchat/GFVgz0G-oVXOIJGfFYD-vg
-   
-   Neblio Telegram group is a community of investors and potential investors in the project. You are welcome to join, share your opinions without excessively shilling competitors. 
-   
-   Telegram Admins: 
-    
-    @I 
-    @Sikeolem 
+
+   Neblio Telegram group is a community of Neblio users. You are welcome to join, share your opinions without excessively shilling competitors.
+
+   Telegram Admins:
+
+    @I
+    @Sikeolem
     @Nebliodev
-    @JamieD1 
+    @JamieD1
     @miKnutty
     @Betim
     @sam_md777
-    
+
     /start - to go back to home
 
 
@@ -169,71 +179,79 @@ MESSAGES:
       about  : "this is blah about username2"
 
   # Rules
-  rules: > 
+  rules: >
     *DO NOT* post any spam or referral links.
+
     *DO NOT* post old news, duplicate post news, crappy gifs, excessive gifs, crappy stickers, or excessive stickers. Stickers & gifs provide little value to users so their use should be sparse & selected.
-    *DO NOT* post fud, unsubstantiated claims, if you're questioned to cite evidence, please provide some. 
-    *DO NOT* thrash other members. Respect everyones opinion as we are a community and each has their own perspective. 
+
+    *DO NOT* post fud, unsubstantiated claims, if you're questioned to cite evidence, please provide some.
+
+    *DO NOT* thrash other members. Respect everyones opinion as we are a community and each has their own perspective.
+
     *DO NOT* discuss religion or post any racist comments.
-   
+
    /start - to go back to home
 
-  # Teamspeak info request 
-  teamspeak: > 
-   Blah teamspeak blah 
-   
+  # Teamspeak info request
+  teamspeak: >
+   Blah teamspeak blah
+
    /start - to go back to home
 
 
   # Telegram info request
-  telegram: > 
-   Blah telegram blah 
-   
+  telegram: >
+   Blah telegram blah
+
    /start - to go back to home
 
   # Chat links
-  chat: > 
+  chat: >
    *Find out chat links here:* https://nebl.io/chat/
-   
+
    *Discord*: https://discord.gg/PFt3bVw
-   
+
    *Telegram*: https://t.me/joinchat/GFVgz0G-oVXOIJGfFYD-vg
-   
+
    *Slack*: https://neblio.slack.com | Get Invite from https://nebl.io/chat
-   
+
   # Livestream info request
-  livestream: > 
-   Blah livestream blah 
-   
+  livestream: >
+   Blah livestream blah
+
    /start - to go back to home
 
   # Exchanges info request
   exchanges: >
-   Binance: https://www.binance.com/trade.html?symbol=NEBL_BTC
-   OEX: https://www.oex.com/
-   Kucoin: https://www.kucoin.com/#/trade/NEBL-BTC
-   Cryptopia: https://www.cryptopia.co.nz/Exchange?market=NEBL_BTC
-   HitBTC: https://hitbtc.com/exchange/NEBL-to-BTC
+   *Binance*: https://www.binance.com/trade.html?symbol=NEBL_BTC
+
+   *Kucoin*: https://www.kucoin.com/#/trade/NEBL-BTC
+
+   *Cryptopia*: https://www.cryptopia.co.nz/Exchange?market=NEBL_BTC
+
+   *HitBTC*: https://hitbtc.com/exchange/NEBL-to-BTC
+
+   *OEX*: https://www.oex.com/
 
    /start - to go back to home
 
   # Shill exchanges / shill links
-  shill: > 
+  shill: >
    Blah my shill links blah
 
-  teamspeakbadges: > 
+  teamspeakbadges: >
    Blah teamspeak badges blah
 
-  fomobot: > 
-   Blah fomobot blah 
+  fomobot: >
+   Blah fomobot blah
 
    /start - to go back to home
 
 
-  donate: > 
+  donate: >
    If you would like to support Whalepool.io, please donate to:
-   Please note, for a 'financial contributor' badge on Teamspeak, the minimium donation is 0.1 btc.  
-   
+   Please note, for a 'financial contributor' badge on Teamspeak, the minimium donation is 0.1 btc.
+
    Bitcoin: 175oRbKiLtdY7RVC8hSX7KD69WQs8PcRJA
-   
+
    Please be sure to let us know you donated :)
