@@ -83,8 +83,7 @@ MESSAGES:
 
   # The message displayed to new users when they join your room
   welcome:
-   #- "Welcome %s, I'm Natalia, group secretary. Please PM (@WPrules_bot) see chat rules."
-   - "Hi %s, welcome to the group"
+   - "Welcome %s, I'm Nebliana, group secretary. Please PM (@Nebliana_Bot) see chat rules."
 
   # A special welcome message for an individually special room
   welcome_special: 'Welcome %s, this is a special chat group with a special welcome message'
@@ -120,16 +119,27 @@ MESSAGES:
   # The 'admin' extra control pannel welcome message
   admin_start: >
    %s, this is your admin control:
+
    /topstickers - posts the top 3 stickers from the last 3 days into the main room chat
+
    /topgif - post the top gif to whalepool + feed
+
    /topgifposters - post who are the top 5 gif posters
+
    /todayinwords - Today in words...
+
    /todaysusers - Wordcloiud of whos active today
+
    /promotets 'message' - spam / promote teamspeak with a specified message.
+
    /shill - spam / promote various exchanges.
+
    /commandstats - get the command stats since the start of the month
+
    /joinstats - get the join stats since the start of the month
+
    /whalepooloverprice - list the user gifs, user messages and user joins per hour over price
+
 
   # About page
   about: >
