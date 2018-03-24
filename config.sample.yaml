@@ -25,7 +25,7 @@ WORDCLOUD_STOPWORDS:
 
 # Forward URLS
 # URLS matching this regex will look to be forwarded to your 'feed' room
-FORWARD_URLS: 'bloomberg.com|tradingview.com|coindesk.com'
+FORWARD_URLS: ''
 
 
 # Shill Detected
@@ -44,37 +44,9 @@ SHILL_DETECTOR: 'bitmex\.com\/register\/([a-zA-Z0-9]*)|cryptofacilities\.com\/de
 # List of matching shill links and their counter shill links to replace the offending messages with
 COUNTER_SHILL:
 
-  - title: 'Bitmex'
-    match: 'bitmex\.com\/register\/([a-zA-Z0-9]*)'
-    link : 'http://bitmex.whalepool.io'
-
-  - title: 'CryptoFacilities'
-    match: 'cryptofacilities\.com\/derivatives\/([a-zA-Z0-9-_]*)'
-    link : 'http://cryptofacilities.whalepool.io'
-
-  - title: 'Bitfinex'
-    match: 'cryptofacilities\.com\/derivatives\/([a-zA-Z0-9-_]*)'
-    link : 'http://bitfinex.whalepool.io'
-
-  - title: 'Simplefx'
-    match: 'simplefx\.com\/\?sfx-r=([a-zA-Z0-9-_]*)'
-    link : 'http://simplefx.whalepool.io'
-
-  - title: '1broker'
-    match: '1broker\.com\/\?c=en\/action\/r&i=([a-zA-Z0-9]*)'
-    link : 'http://1broker.whalepool.io'
-
-  - title: 'NitrogenSports'
-    match: 'nitrogensports\.eu\/r\/([a-zA-Z0-9]*)'
-    link : 'http://sports.whalepool.io'
-
   - title: 'Binance'
     match: 'binance\.com\/\?ref=([a-zA-Z0-9]*)'
-    link : 'http://binance.whalepool.io'
-
-  - title: 'Deribit'
-    match: 'deribit\.com\/reg-([a-zA-Z0-9\.]*)'
-    link : 'http://deribit.whalepool.io'
+    link : 'https://www.binance.com/?ref=10980898'
 
 
 
@@ -83,7 +55,7 @@ MESSAGES:
 
   # The message displayed to new users when they join your room
   welcome:
-   - "Welcome %s, I'm Nebliana, group secretary. Please PM (@Nebliana_Bot) see chat rules."
+   - "Welcome %s, I'm Nebliana, group secretary. New users cannot post in the chat for 2 days to prevent spam. Please PM (@Nebliana_Bot) see chat rules."
 
   # A special welcome message for an individually special room
   welcome_special: 'Welcome %s, this is a special chat group with a special welcome message'
@@ -104,6 +76,8 @@ MESSAGES:
   # The 'welcome' message when users first initiate pm with the bot
   start: >
    Hi %s, Welcome to Neblio
+
+   New users cannot post in the chat for 2 days to prevent spam.
 
    Please click one of the links to see how i can help you:
 

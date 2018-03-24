@@ -1121,21 +1121,21 @@ def new_chat_member(bot, update):
 		restricted = 0
 
 		# Bot was added to a group chat
-		if update.message._new_chat_member.username == BOTNAME:
-			return False
+		# if update.message._new_chat_member.username == BOTNAME:
+			# return False
 		# Another user joined the chat
-		else:
+		# else:
 
-			pprint('Room: '+str(ROOM_ID_TO_NAME[chat_id]))
-			pprint('Chat_id: '+str(chat_id))
-			pprint('Last Msgs: '+str(PRIOR_WELCOME_MESSAGE_ID))
-			pprint('Last Msgs [ chat_id ]: '+str(PRIOR_WELCOME_MESSAGE_ID[chat_id]))
+		pprint('Room: '+str(ROOM_ID_TO_NAME[chat_id]))
+		pprint('Chat_id: '+str(chat_id))
+		pprint('Last Msgs: '+str(PRIOR_WELCOME_MESSAGE_ID))
+		pprint('Last Msgs [ chat_id ]: '+str(PRIOR_WELCOME_MESSAGE_ID[chat_id]))
 
-			try:
-				if PRIOR_WELCOME_MESSAGE_ID[chat_id] > 0:
-					bot.delete_message(chat_id=chat_id, message_id=PRIOR_WELCOME_MESSAGE_ID[chat_id])
-			except:
-				pass
+		try:
+			if PRIOR_WELCOME_MESSAGE_ID[chat_id] > 0:
+				bot.delete_message(chat_id=chat_id, message_id=PRIOR_WELCOME_MESSAGE_ID[chat_id])
+		except:
+			pass
 
 
 			#if len(name) > 50:
@@ -1145,17 +1145,17 @@ def new_chat_member(bot, update):
 
 
 
-			logger.info("welcoming - "+name)
-			msg = random.choice(MESSAGES['welcome']) % (name)
+		logger.info("welcoming - "+name)
+		msg = random.choice(MESSAGES['welcome']) % (name)
 
 			#if (chat_id == WP_WOMENS):
 			#	msg = (MESSAGES['welcomewomen'] % (name))
 
-			if profile_pics.total_count == 0:
-				msg += " - Also, please set a profile pic!!"
-			message = bot.sendMessage(chat_id=chat_id,reply_to_message_id=message_id,text=msg)
+		if profile_pics.total_count == 0:
+			msg += " - Also, please set a profile pic!!"
+		message = bot.sendMessage(chat_id=chat_id,reply_to_message_id=message_id,text=msg)
 
-			PRIOR_WELCOME_MESSAGE_ID[chat_id] = int(message.message_id)
+		PRIOR_WELCOME_MESSAGE_ID[chat_id] = int(message.message_id)
 
 
 	#if (chat_id == MH_ROOM) :
