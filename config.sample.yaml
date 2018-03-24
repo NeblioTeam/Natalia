@@ -163,12 +163,27 @@ MESSAGES:
 
   # JSon list of admins for the '/admins' request page
   admins_json:
-    "@username1":
-      adminOf: "Room A and B"
-      about  : "this is blah about username1"
-    "@username2":
-      adminOf: "Room B and C "
-      about  : "this is blah about username2"
+    "@sam_md777":
+      adminOf: "Neblio Telegram"
+      about  : "Sam E"
+    "@JamieD1":
+      adminOf: "Neblio Telegram"
+      about  : "Jamie"
+    "@I":
+      adminOf: "Neblio Telegram"
+      about  : "I Swig"
+    "@Sikeolem":
+      adminOf: "Neblio Telegram"
+      about  : "Sike Olem"
+    "@miKnutty":
+      adminOf: "Neblio Telegram"
+      about  : "miKnutty"
+    "@Betim":
+      adminOf: "Neblio Telegram"
+      about  : "Betim CM"
+    "@NebliodDev":
+      adminOf: "Neblio Telegram"
+      about  : "Nebliodev"
 
   # Rules
   rules: >
