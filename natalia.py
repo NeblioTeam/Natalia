@@ -90,74 +90,76 @@ for s in config['COUNTER_SHILL']:
 
 MESSAGES = {}
 MESSAGES['welcome']         = config['MESSAGES']['welcome']
-MESSAGES['welcomewomen']    = config['MESSAGES']['welcome_special']
+#MESSAGES['welcomewomen']    = config['MESSAGES']['welcome_special']
 MESSAGES['goodbye']         = config['MESSAGES']['goodbye']
 MESSAGES['pmme']            = config['MESSAGES']['pmme']
 MESSAGES['start']           = config['MESSAGES']['start']
 MESSAGES['admin_start']     = config['MESSAGES']['admin_start']
 MESSAGES['about']           = config['MESSAGES']['about']
 MESSAGES['rules']           = config['MESSAGES']['rules']
-MESSAGES['teamspeak']       = config['MESSAGES']['teamspeak']
-MESSAGES['telegram']        = config['MESSAGES']['telegram']
-MESSAGES['livestream']      = config['MESSAGES']['livestream']
+#MESSAGES['teamspeak']       = config['MESSAGES']['teamspeak']
+#MESSAGES['telegram']        = config['MESSAGES']['telegram']
+MESSAGES['chat']        	= config['MESSAGES']['chat']
+#MESSAGES['livestream']      = config['MESSAGES']['livestream']
 MESSAGES['exchanges']       = config['MESSAGES']['exchanges']
 MESSAGES['shill']           = config['MESSAGES']['shill']  
-MESSAGES['teamspeakbadges'] = config['MESSAGES']['teamspeakbadges']
-MESSAGES['fomobot']         = config['MESSAGES']['fomobot']
-MESSAGES['donate']          = config['MESSAGES']['donate']
+#MESSAGES['teamspeakbadges'] = config['MESSAGES']['teamspeakbadges']
+#MESSAGES['fomobot']         = config['MESSAGES']['fomobot']
+#MESSAGES['donate']          = config['MESSAGES']['donate']
 
 ADMINS_JSON                 = config['MESSAGES']['admins_json']
 
 
 
 # Rooms 
-WP_ROOM     = -1001012147388      # Whalepool
-SP_ROOM     = -1001120581521      # Shitpool
-WP_ADMIN    = -238862165          # Whalepool Admin
-MH_ROOM     = -1001213548615      # Master Holder room
-TEST_ROOM   = -1001223115449     # Test room
-WP_WOMENS   = -1001248205448      # Whalepool Womens
-WP_FEED     = "@whalepoolbtcfeed" # Whalepool Feed
-SP_FEED     = "@shitcoincharts" # shitpool feed
+WP_ROOM     = -1001103012181      # Neblio Main Channel
+#SP_ROOM     = -1001120581521      # Shitpool
+WP_ADMIN    = -279751667         # Neblio Staff Room
+#MH_ROOM     = -1001213548615      # Master Holder room
+#TEST_ROOM   = -1001223115449     # Test room
+#WP_WOMENS   = -1001248205448      # Whalepool Womens
+#WP_FEED     = "@whalepoolbtcfeed" # Whalepool Feed
+#SP_FEED     = "@shitcoincharts" # shitpool feed
 
 ROOM_ID_TO_NAME = {
-	WP_ROOM : 'Whalepool',
-	SP_ROOM : 'Shitpool',
-	WP_ADMIN: 'Whalepool Mod room',
-	MH_ROOM : 'Whalepool Trading Dojo',
-	TEST_ROOM: 'Test room',
-	WP_WOMENS : 'Whalepool Womens',
-	WP_FEED : 'Whalepool Feed channel',
-	SP_FEED : 'Shitpool Feed channel'
+	WP_ROOM : 'Neblio',
+	#SP_ROOM : 'Shitpool',
+	WP_ADMIN: 'Neblio Staff Room',
+	#MH_ROOM : 'Whalepool Trading Dojo',
+	#TEST_ROOM: 'Test room',
+	#WP_WOMENS : 'Whalepool Womens',
+	#WP_FEED : 'Whalepool Feed channel',
+	#SP_FEED : 'Shitpool Feed channel'
 }
 
 # Rooms where chat/gifs/etc is logged for stats etc 
-LOG_ROOMS = [ WP_ROOM, SP_ROOM, TEST_ROOM ]
+#LOG_ROOMS = [ WP_ROOM, SP_ROOM, TEST_ROOM ]
+LOG_ROOMS = [ WP_ROOM ]
 
 
 # Storing last 'welcome' message ids 
 PRIOR_WELCOME_MESSAGE_ID = {
 	WP_ROOM   : 0,
-	SP_ROOM   : 0,
-	MH_ROOM   : 0,
-	TEST_ROOM : 0,
-	WP_WOMENS : 0
+	#SP_ROOM   : 0,
+	#MH_ROOM   : 0,
+	#TEST_ROOM : 0,
+	#WP_WOMENS : 0
 }
 
 # Storing last 'removal' of uncompress images, message ids
 LASTUNCOMPRESSED_IMAGES = { 
 	WP_ROOM   : 0,
-	SP_ROOM   : 0,
-	MH_ROOM   : 0,
-	TEST_ROOM : 0,
-	WP_WOMENS : 0
+	#SP_ROOM   : 0,
+	#MH_ROOM   : 0,
+	#TEST_ROOM : 0,
+	#WP_WOMENS : 0
 }
 
 # Hashtags that forward messages to specific channels
-forward_hashtags = {
-	'#communityfund' : WP_FEED,
-	'#community' : WP_FEED
-}
+#forward_hashtags = {
+#	'#communityfund' : WP_FEED,
+#	'#community' : WP_FEED
+#}
 
 
 
@@ -295,7 +297,7 @@ def admins(bot, update):
 		msg = random.choice(MESSAGES['pmme']) % (name)
 		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1) 
 	else:
-		msg = "*Whalepool Admins*\n\n"
+		msg = "*Neblio Admins*\n\n"
 		keys = list(ADMINS_JSON.keys())
 		random.shuffle(keys)
 		for k in keys: 
@@ -371,6 +373,26 @@ def telegram(bot, update):
 
 		timestamp = datetime.datetime.utcnow()
 		info = { 'user_id': user_id, 'request': 'telegram', 'timestamp': timestamp }
+		db.pm_requests.insert(info)
+
+		bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1) 
+		
+def chat(bot, update):
+
+	user_id = update.message.from_user.id 
+	chat_id = update.message.chat.id
+	message_id = update.message.message_id
+	name = get_name(update)
+	logger.info("/chat - "+name)
+
+	if (update.message.chat.type == 'group') or (update.message.chat.type == 'supergroup'):
+		msg = random.choice(MESSAGES['pmme']) % (name)
+		bot.sendMessage(chat_id=chat_id,text=msg,reply_to_message_id=message_id, parse_mode="Markdown",disable_web_page_preview=1) 
+	else:
+		msg = MESSAGES['chat']
+
+		timestamp = datetime.datetime.utcnow()
+		info = { 'user_id': user_id, 'request': 'chat', 'timestamp': timestamp }
 		db.pm_requests.insert(info)
 
 		bot.sendMessage(chat_id=chat_id,text=msg,parse_mode="Markdown",disable_web_page_preview=1) 
@@ -633,8 +655,8 @@ def promotets(bot, update):
 
 	if len(fmsg) > 0:
 
-		# rooms = [WP_ROOM]
-		rooms = [WP_ROOM, SP_ROOM, MH_ROOM, WP_FEED, SP_FEED]
+		 rooms = [WP_ROOM]
+		#rooms = [WP_ROOM, SP_ROOM, MH_ROOM, WP_FEED, SP_FEED]
 
 		for r in rooms:
 
@@ -643,7 +665,8 @@ def promotets(bot, update):
 			msg = bot.sendMessage(chat_id=r, parse_mode="Markdown", text=fmsg[0]+"\n-------------------\n*/announcement from "+name+"*" )
 
 
-			if r in [WP_ROOM, SP_ROOM, MH_ROOM]: 
+			#if r in [WP_ROOM, SP_ROOM, MH_ROOM]: 
+			if r in [WP_ROOM]:
 				bot.pin_chat_message(r, msg.message_id, disable_notification=True)
 
 			bot.sendMessage(chat_id=r, parse_mode="Markdown", text="Message me ("+BOTNAME.replace('_','\_')+") - to see details on how to connect to [teamspeak](https://whalepool.io/connect/teamspeak) also listen in to the listream here: livestream.whalepool.io", disable_web_page_preview=True )
@@ -663,7 +686,8 @@ def shill(bot, update):
 
 	bot.sendMessage(chat_id=WP_ADMIN, parse_mode="Markdown", text=name+" just shilled")
 
-	rooms = [WP_ROOM, SP_ROOM, WP_FEED, SP_FEED]
+	#rooms = [WP_ROOM, SP_ROOM, WP_FEED, SP_FEED]
+	rooms = [WP_ROOM]
 
 	for r in rooms:
 		bot.sendMessage(chat_id=r, parse_mode="Markdown", text=MESSAGES['shill'],disable_web_page_preview=1)
@@ -1079,7 +1103,8 @@ def new_chat_member(bot, update):
 	chat_id = update.message.chat.id
 	name = get_name(update)
 
-	if (chat_id == WP_ROOM) or (chat_id == SP_ROOM) or (chat_id == WP_WOMENS):
+	#if (chat_id == WP_ROOM) or (chat_id == SP_ROOM) or (chat_id == WP_WOMENS):
+	if (chat_id == WP_ROOM):
 		# Check user has a profile pic.. 
 
 		timestamp = datetime.datetime.utcnow()
@@ -1123,8 +1148,8 @@ def new_chat_member(bot, update):
 			logger.info("welcoming - "+name)
 			msg = random.choice(MESSAGES['welcome']) % (name)
 
-			if (chat_id == WP_WOMENS):
-				msg = (MESSAGES['welcomewomen'] % (name))
+			#if (chat_id == WP_WOMENS):
+			#	msg = (MESSAGES['welcomewomen'] % (name))
 
 			if profile_pics.total_count == 0:
 				msg += " - Also, please set a profile pic!!"
@@ -1133,11 +1158,11 @@ def new_chat_member(bot, update):
 			PRIOR_WELCOME_MESSAGE_ID[chat_id] = int(message.message_id)
 
 
-	if (chat_id == MH_ROOM) :
-		bot.restrict_chat_member(MH_ROOM, user_id, until_date=(datetime.datetime.now() + relativedelta(years=2)), can_send_messages=False, can_send_media_messages=False, can_send_other_messages=False, can_add_web_page_previews=False)
+	#if (chat_id == MH_ROOM) :
+	#	bot.restrict_chat_member(MH_ROOM, user_id, until_date=(datetime.datetime.now() + relativedelta(years=2)), can_send_messages=False, can_send_media_messages=False, can_send_other_messages=False, can_add_web_page_previews=False)
 
-	if (chat_id == WP_WOMENS):
-		bot.restrict_chat_member(WP_WOMENS, user_id, until_date=(datetime.datetime.now() + relativedelta(years=2)), can_send_messages=False, can_send_media_messages=False, can_send_other_messages=False, can_add_web_page_previews=False)
+	#if (chat_id == WP_WOMENS):
+	#	bot.restrict_chat_member(WP_WOMENS, user_id, until_date=(datetime.datetime.now() + relativedelta(years=2)), can_send_messages=False, can_send_media_messages=False, can_send_other_messages=False, can_add_web_page_previews=False)
 
 	if chat_id == WP_ROOM :
 		bot.restrict_chat_member(WP_ROOM, user_id, until_date=(datetime.datetime.now() + relativedelta(days=14)), can_send_messages=False, can_send_media_messages=False, can_send_other_messages=False, can_add_web_page_previews=False)
@@ -1372,10 +1397,10 @@ def links_and_hashtag_messages(bot, update):
 		forward = legit_hashtag
 
 	furlcnt = re.findall(FORWARD_URLS, update.message.text)
-	if len(furlcnt) > 0 and ((chat_id == WP_ROOM) or (chat_id == MH_ROOM)):
-		forward = WP_FEED
-	if len(furlcnt) > 0 and (chat_id == SP_ROOM):
-		forward = SP_FEED
+	#if len(furlcnt) > 0 and ((chat_id == WP_ROOM) or (chat_id == MH_ROOM)):
+	#	forward = WP_FEED
+	#if len(furlcnt) > 0 and (chat_id == SP_ROOM):
+	#	forward = SP_FEED
 
 	if forward != False:
 		bot.forwardMessage(chat_id=forward, from_chat_id=chat_id, message_id=message_id)
@@ -1397,25 +1422,26 @@ dp.add_handler(CommandHandler('start', start))
 dp.add_handler(CommandHandler('about', about))
 dp.add_handler(CommandHandler('rules', rules))
 dp.add_handler(CommandHandler('admins', admins))
-dp.add_handler(CommandHandler('teamspeak', teamspeak))
-dp.add_handler(CommandHandler('telegram', telegram))
-dp.add_handler(CommandHandler('livestream', livestream))
-# dp.add_handler(CommandHandler('fomobot', fomobot))
-dp.add_handler(CommandHandler('teamspeakbadges', teamspeakbadges))
+#dp.add_handler(CommandHandler('teamspeak', teamspeak))
+#dp.add_handler(CommandHandler('telegram', telegram))
+dp.add_handler(CommandHandler('chat', chat))
+#dp.add_handler(CommandHandler('livestream', livestream))
+#dp.add_handler(CommandHandler('fomobot', fomobot))
+#dp.add_handler(CommandHandler('teamspeakbadges', teamspeakbadges))
 dp.add_handler(CommandHandler('exchanges', exchanges))
-dp.add_handler(CommandHandler('donation', donation))
-dp.add_handler(CommandHandler('special', special))
+#dp.add_handler(CommandHandler('donation', donation))
+#dp.add_handler(CommandHandler('special', special))
 
 dp.add_handler(CommandHandler('topstickers', topstickers))
 dp.add_handler(CommandHandler('topgif', topgif))
 dp.add_handler(CommandHandler('topgifposters', topgifposters))
 dp.add_handler(CommandHandler('todayinwords', todayinwords))
 dp.add_handler(CommandHandler('todaysusers', todaysusers))
-dp.add_handler(CommandHandler('promotets', promotets))
+#dp.add_handler(CommandHandler('promotets', promotets))
 dp.add_handler(CommandHandler('shill', shill))
 dp.add_handler(CommandHandler('commandstats',commandstats))
 dp.add_handler(CommandHandler('joinstats',joinstats))
-dp.add_handler(CommandHandler('whalepooloverprice',whalepooloverprice))
+#dp.add_handler(CommandHandler('whalepooloverprice',whalepooloverprice))
 
 
 # Welcome

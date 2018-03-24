@@ -169,6 +169,17 @@ MESSAGES:
    
    /start - to go back to home
 
+  # Chat links
+  chat: > 
+   Find out chat links here:
+   https://nebl.io/chat/
+   
+   Discord: https://discord.gg/PFt3bVw
+   
+   Telegram: https://t.me/joinchat/GFVgz0G-oVXOIJGfFYD-vg
+   
+   Slack: https://neblio.slack.com | Get Invite from https://nebl.io/chat
+   
   # Livestream info request
   livestream: > 
    Blah livestream blah 
