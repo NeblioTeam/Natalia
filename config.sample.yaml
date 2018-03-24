@@ -104,17 +104,18 @@ MESSAGES:
 
   # The 'welcome' message when users first initiate pm with the bot
   start: >
-   Hi %s, Welcome to X
+   Hi %s, Welcome to Neblio
+
    Please click one of the links to see how i can help you:
+
    /rules  - See Rules
+
    /about - about us
+
    /admins - See list of admins to contact for help.
-   /teamspeak - How to connect to teamspeak
-   /teamspeakbadges - Badges rules & guides for teamspeak
-   /telegram - Our telegram Channels
-   /livestream - Listen to use live on youtube
+
    /exchanges - See where we recommend to trade
-   /donation - Make a donation
+
 
   # The 'admin' extra control pannel welcome message
   admin_start: >
@@ -136,23 +137,23 @@ MESSAGES:
 
    Neblio is a North American decentralized opensource BAAS platform:
 
-   Whitepaper & Roadmap: https://nebl.io/roadmap/
+   Whitepaper & Roadmap: [https://nebl.io/roadmap/](https://nebl.io/roadmap/)
 
-   Team: https://nebl.io/about/
+   Team: [https://nebl.io/about/](https://nebl.io/about/)
 
-   Contact: https://nebl.io/contact/
+   Contact: [https://nebl.io/contact/](https://nebl.io/contact/)
 
-   Slack: https://neblio.slack.com/
+   Slack: [https://neblio.slack.com/](https://neblio.slack.com/)
 
-   Discord: https://discord.gg/PFt3bVw
+   Discord: [https://discord.gg/PFt3bVw](https://discord.gg/PFt3bVw)
 
-   Twitter: https://twitter.com/NeblioTeam
+   Twitter: [https://twitter.com/NeblioTeam](https://twitter.com/NeblioTeam)
 
-   Facebook: https://www.facebook.com/neblioteam/
+   Facebook: [https://www.facebook.com/neblioteam/](https://www.facebook.com/neblioteam/)
 
-   Reddit: http://reddit.com/r/neblio
+   Reddit: [http://reddit.com/r/neblio](http://reddit.com/r/neblio)
 
-   Telegram: https://t.me/joinchat/GFVgz0G-oVXOIJGfFYD-vg
+   Telegram: [https://t.me/joinchat/GFVgz0G-oVXOIJGfFYD-vg](https://t.me/joinchat/GFVgz0G-oVXOIJGfFYD-vg)
 
    Neblio Telegram group is a community of Neblio users. You are welcome to join, share your opinions without excessively shilling competitors.
 
@@ -190,7 +191,7 @@ MESSAGES:
 
     *DO NOT* discuss religion or post any racist comments.
 
-   /start - to go back to home
+    /start - to go back to home
 
   # Teamspeak info request
   teamspeak: >
@@ -207,13 +208,13 @@ MESSAGES:
 
   # Chat links
   chat: >
-   *Find out chat links here:* https://nebl.io/chat/
+   *Find out chat links here:* [https://nebl.io/chat/](https://nebl.io/chat/)
 
-   *Discord*: https://discord.gg/PFt3bVw
+   *Discord*: [https://discord.gg/PFt3bVw](https://discord.gg/PFt3bVw)
 
-   *Telegram*: https://t.me/joinchat/GFVgz0G-oVXOIJGfFYD-vg
+   *Telegram*: [https://t.me/joinchat/GFVgz0G-oVXOIJGfFYD-vg](https://t.me/joinchat/GFVgz0G-oVXOIJGfFYD-vg)
 
-   *Slack*: https://neblio.slack.com | Get Invite from https://nebl.io/chat
+   *Slack*: [https://neblio.slack.com](https://neblio.slack.com) | Get Invite from [https://nebl.io/chat](https://nebl.io/chat)
 
   # Livestream info request
   livestream: >
@@ -223,15 +224,15 @@ MESSAGES:
 
   # Exchanges info request
   exchanges: >
-   *Binance*: https://www.binance.com/trade.html?symbol=NEBL_BTC
+   *Binance*: [https://www.binance.com/trade.html?symbol=NEBL_BTC](https://www.binance.com/trade.html?symbol=NEBL_BTC)
 
-   *Kucoin*: https://www.kucoin.com/#/trade/NEBL-BTC
+   *Kucoin*: [https://www.kucoin.com/#/trade/NEBL-BTC](https://www.kucoin.com/#/trade/NEBL-BTC)
 
-   *Cryptopia*: https://www.cryptopia.co.nz/Exchange?market=NEBL_BTC
+   *Cryptopia*: [https://www.cryptopia.co.nz/Exchange?market=NEBL_BTC](https://www.cryptopia.co.nz/Exchange?market=NEBL_BTC)
 
-   *HitBTC*: https://hitbtc.com/exchange/NEBL-to-BTC
+   *HitBTC*: [https://hitbtc.com/exchange/NEBL-to-BTC](https://hitbtc.com/exchange/NEBL-to-BTC)
 
-   *OEX*: https://www.oex.com/
+   *OEX*: [https://www.oex.com/](https://www.oex.com/)
 
    /start - to go back to home
 
@@ -249,9 +250,6 @@ MESSAGES:
 
 
   donate: >
-   If you would like to support Whalepool.io, please donate to:
-   Please note, for a 'financial contributor' badge on Teamspeak, the minimium donation is 0.1 btc.
+   Blah donate blah
 
-   Bitcoin: 175oRbKiLtdY7RVC8hSX7KD69WQs8PcRJA
-
-   Please be sure to let us know you donated :)
+   /start - to go back to home
