@@ -99,7 +99,7 @@ MESSAGES:
   # The bot will message the user telling them to pm them
   pmme:
   - "Naughty naughty %s, you know we can't talk dirty in public. PM me for that kind of talk & house rules."
-  - "%s, some things a better left for behind closed doors. PM me for house rules."
+  - "%s, some things are better left for behind closed doors. PM me for house rules."
 
   # The 'welcome' message when users first initiate pm with the bot
   start: >
@@ -173,7 +173,7 @@ MESSAGES:
 
   # JSon list of admins for the '/admins' request page
   admins_json:
-    "@sam_md777":
+    "@sammd777":
       adminOf: "Neblio Telegram"
       about  : "Sam E"
     "@JamieD1":
