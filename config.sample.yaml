@@ -83,7 +83,7 @@ MESSAGES:
 
   # The message displayed to new users when they join your room
   welcome:
-   - "Welcome %s, I'm Natalia, group secretary. Please PM (@WPrules_bot) see chat rules."
+   #- "Welcome %s, I'm Natalia, group secretary. Please PM (@WPrules_bot) see chat rules."
    - "Hi %s, welcome to the group"
 
   # A special welcome message for an individually special room 
@@ -133,10 +133,30 @@ MESSAGES:
   # About page
   about: > 
    *About X*
+   Neblio is a North American decentralized opensource BAAS platform:
+   Whitepaper & Roadmap: https://nebl.io/roadmap/
+   Team: https://nebl.io/about/
+   Contact: https://nebl.io/contact/
+   Slack: https://neblio.slack.com/
+   Discord: https://discord.gg/PFt3bVw   
+   Twitter: https://twitter.com/NeblioTeam
+   Facebook: https://www.facebook.com/neblioteam/
+   Reddit: http://reddit.com/r/neblio
+   Telegram: https://t.me/joinchat/GFVgz0G-oVXOIJGfFYD-vg
    
-   blah blah 
-
-   /start - to go back to home
+   Neblio Telegram group is a community of investors and potential investors in the project. You are welcome to join, share your opinions without excessively shilling competitors. 
+   
+   Telegram Admins: 
+    
+    @I 
+    @Sikeolem 
+    @Nebliodev
+    @JamieD1 
+    @miKnutty
+    @Betim
+    @sam_md777
+    
+    /start - to go back to home
 
 
   # JSon list of admins for the '/admins' request page
@@ -150,9 +170,11 @@ MESSAGES:
 
   # Rules
   rules: > 
-   *Rules*
- 
-   blah rules blah 
+    *DO NOT* post any spam or referral links.
+    *DO NOT* post old news, duplicate post news, crappy gifs, excessive gifs, crappy stickers, or excessive stickers. Stickers & gifs provide little value to users so their use should be sparse & selected.
+    *DO NOT* post fud, unsubstantiated claims, if you're questioned to cite evidence, please provide some. 
+    *DO NOT* thrash other members. Respect everyones opinion as we are a community and each has their own perspective. 
+    *DO NOT* discuss religion or post any racist comments.
    
    /start - to go back to home
 
@@ -169,6 +191,16 @@ MESSAGES:
    
    /start - to go back to home
 
+  # Chat links
+  chat: > 
+   *Find out chat links here:* https://nebl.io/chat/
+   
+   *Discord*: https://discord.gg/PFt3bVw
+   
+   *Telegram*: https://t.me/joinchat/GFVgz0G-oVXOIJGfFYD-vg
+   
+   *Slack*: https://neblio.slack.com | Get Invite from https://nebl.io/chat
+   
   # Livestream info request
   livestream: > 
    Blah livestream blah 
@@ -177,7 +209,11 @@ MESSAGES:
 
   # Exchanges info request
   exchanges: >
-   Blah exchanges blah 
+   Binance: https://www.binance.com/trade.html?symbol=NEBL_BTC
+   OEX: https://www.oex.com/
+   Kucoin: https://www.kucoin.com/#/trade/NEBL-BTC
+   Cryptopia: https://www.cryptopia.co.nz/Exchange?market=NEBL_BTC
+   HitBTC: https://hitbtc.com/exchange/NEBL-to-BTC
 
    /start - to go back to home
 
