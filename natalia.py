@@ -1165,7 +1165,7 @@ def new_chat_member(bot, update):
 	#	bot.restrict_chat_member(WP_WOMENS, user_id, until_date=(datetime.datetime.now() + relativedelta(years=2)), can_send_messages=False, can_send_media_messages=False, can_send_other_messages=False, can_add_web_page_previews=False)
 
 	if chat_id == WP_ROOM :
-		bot.restrict_chat_member(WP_ROOM, user_id, until_date=(datetime.datetime.now() + relativedelta(days=14)), can_send_messages=False, can_send_media_messages=False, can_send_other_messages=False, can_add_web_page_previews=False)
+		bot.restrict_chat_member(WP_ROOM, user_id, until_date=(datetime.datetime.now() + relativedelta(days=2)), can_send_messages=False, can_send_media_messages=False, can_send_other_messages=False, can_add_web_page_previews=False)
 
 
 
