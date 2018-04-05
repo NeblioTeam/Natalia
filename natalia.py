@@ -1352,7 +1352,7 @@ def links_and_hashtag_messages(bot, update):
 	find_shill = re.findall(SHILL_DETECTOR, update.message.text)
 	if (len(find_shill) > 0) and chat_id in ROOM_ID_TO_NAME:
 
-		reply = 'Whalepool does not allow users to post personal affiliate links. This prevents many problems that can poison a community. Whalepool pays for all staff, servers, competitions and costs through affiliaite revenue, thus we ask users to support whalepool by using the community affiliate links instead.  '
+		reply = 'Neblio does not allow posting of personal affilate links, This is to prevent spam and a keeps the community clean. '
 
 		for s in COUNTER_SHILL:
 
