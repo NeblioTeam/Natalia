@@ -113,6 +113,7 @@ ADMINS_JSON                 = config['MESSAGES']['admins_json']
 
 # Rooms
 WP_ROOM     = -1001103012181      # Neblio Main Channel
+WP_ROOM2	= -1001149607483	# Neblio Multilingual
 #SP_ROOM     = -1001120581521      # Shitpool
 WP_ADMIN    = -279751667         # Neblio Staff Room
 #MH_ROOM     = -1001213548615      # Master Holder room
@@ -122,7 +123,8 @@ WP_ADMIN    = -279751667         # Neblio Staff Room
 #SP_FEED     = "@shitcoincharts" # shitpool feed
 
 ROOM_ID_TO_NAME = {
-	WP_ROOM : 'Neblio',
+	WP_ROOM : 'Neblio - Official',
+	WP_ROOM2 : 'Neblio - Multilingual'
 	#SP_ROOM : 'Shitpool',
 	WP_ADMIN: 'Neblio Staff Room',
 	#MH_ROOM : 'Whalepool Trading Dojo',
@@ -134,12 +136,13 @@ ROOM_ID_TO_NAME = {
 
 # Rooms where chat/gifs/etc is logged for stats etc
 #LOG_ROOMS = [ WP_ROOM, SP_ROOM, TEST_ROOM ]
-LOG_ROOMS = [ WP_ROOM ]
+LOG_ROOMS = [ WP_ROOM, WP_ROOM2 ]
 
 
 # Storing last 'welcome' message ids
 PRIOR_WELCOME_MESSAGE_ID = {
 	WP_ROOM   : 0,
+	WP_ROOM2  : 0,
 	#SP_ROOM   : 0,
 	#MH_ROOM   : 0,
 	#TEST_ROOM : 0,
@@ -149,6 +152,7 @@ PRIOR_WELCOME_MESSAGE_ID = {
 # Storing last 'removal' of uncompress images, message ids
 LASTUNCOMPRESSED_IMAGES = {
 	WP_ROOM   : 0,
+	WP_ROOM2  : 0
 	#SP_ROOM   : 0,
 	#MH_ROOM   : 0,
 	#TEST_ROOM : 0,
@@ -1073,7 +1077,7 @@ def whalepooloverprice(bot, update):
 def special(bot, update):
 	user_id = update.message.from_user.id
 	chat_id = update.message.chat_id
-	if user_id == 61697695:
+	if user_id == 0:
 
 		# Test Emoji
 		text = ''
@@ -1088,7 +1092,7 @@ def special(bot, update):
 		# Black
 		text += '🖤'
 
-		bot.sendMessage(chat_id=61697695, text=text )
+		bot.sendMessage(chat_id=0, text=text )
 
 
 #################################
@@ -1104,7 +1108,7 @@ def new_chat_member(bot, update):
 	name = get_name(update)
 
 	#if (chat_id == WP_ROOM) or (chat_id == SP_ROOM) or (chat_id == WP_WOMENS):
-	if (chat_id == WP_ROOM):
+	if (chat_id == WP_ROOM) or (chat_id == WP_ROOM):
 		# Check user has a profile pic..
 
 		timestamp = datetime.datetime.utcnow()
@@ -1165,7 +1169,9 @@ def new_chat_member(bot, update):
 	#	bot.restrict_chat_member(WP_WOMENS, user_id, until_date=(datetime.datetime.now() + relativedelta(years=2)), can_send_messages=False, can_send_media_messages=False, can_send_other_messages=False, can_add_web_page_previews=False)
 
 	if chat_id == WP_ROOM :
-		bot.restrict_chat_member(WP_ROOM, user_id, until_date=(datetime.datetime.now() + relativedelta(days=2)), can_send_messages=False, can_send_media_messages=False, can_send_other_messages=False, can_add_web_page_previews=False)
+		bot.restrict_chat_member(WP_ROOM, user_id, until_date=(datetime.datetime.now() + relativedelta(hours=12)), can_send_messages=False, can_send_media_messages=False, can_send_other_messages=False, can_add_web_page_previews=False)
+	if chat_id == WP_ROOM2 :
+		bot.restrict_chat_member(WP_ROOM, user_id, until_date=(datetime.datetime.now() + relativedelta(hours=6)), can_send_messages=False, can_send_media_messages=False, can_send_other_messages=False, can_add_web_page_previews=False)
 
 
 
@@ -1352,7 +1358,7 @@ def links_and_hashtag_messages(bot, update):
 	find_shill = re.findall(SHILL_DETECTOR, update.message.text)
 	if (len(find_shill) > 0) and chat_id in ROOM_ID_TO_NAME:
 
-		reply = 'Neblio does not allow posting of personal affilate links, This is to prevent spam and a keeps the community clean. '
+		reply = 'Neblio does not allow posting of personal affilate links, This is to prevent spam and keeps the community clean. '
 
 		for s in COUNTER_SHILL:
 
