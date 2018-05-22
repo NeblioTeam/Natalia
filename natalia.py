@@ -124,7 +124,7 @@ WP_ADMIN    = -279751667         # Neblio Staff Room
 
 ROOM_ID_TO_NAME = {
 	WP_ROOM : 'Neblio - Official',
-	WP_ROOM2 : 'Neblio - Multilingual'
+	WP_ROOM2 : 'Neblio - Multilingual',
 	#SP_ROOM : 'Shitpool',
 	WP_ADMIN: 'Neblio Staff Room',
 	#MH_ROOM : 'Whalepool Trading Dojo',
