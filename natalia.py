@@ -1108,7 +1108,7 @@ def new_chat_member(bot, update):
 	name = get_name(update)
 
 	#if (chat_id == WP_ROOM) or (chat_id == SP_ROOM) or (chat_id == WP_WOMENS):
-	if (chat_id == WP_ROOM) or (chat_id == WP_ROOM):
+	if (chat_id == WP_ROOM) or (chat_id == WP_ROOM2):
 		# Check user has a profile pic..
 
 		timestamp = datetime.datetime.utcnow()
@@ -1171,7 +1171,7 @@ def new_chat_member(bot, update):
 	if chat_id == WP_ROOM :
 		bot.restrict_chat_member(WP_ROOM, user_id, until_date=(datetime.datetime.now() + relativedelta(hours=12)), can_send_messages=False, can_send_media_messages=False, can_send_other_messages=False, can_add_web_page_previews=False)
 	if chat_id == WP_ROOM2 :
-		bot.restrict_chat_member(WP_ROOM, user_id, until_date=(datetime.datetime.now() + relativedelta(hours=6)), can_send_messages=False, can_send_media_messages=False, can_send_other_messages=False, can_add_web_page_previews=False)
+		bot.restrict_chat_member(WP_ROOM2, user_id, until_date=(datetime.datetime.now() + relativedelta(hours=6)), can_send_messages=False, can_send_media_messages=False, can_send_other_messages=False, can_add_web_page_previews=False)
 
 
 
