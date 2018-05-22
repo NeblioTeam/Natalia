@@ -1108,7 +1108,7 @@ def new_chat_member(bot, update):
 	name = get_name(update)
 
 	#if (chat_id == WP_ROOM) or (chat_id == SP_ROOM) or (chat_id == WP_WOMENS):
-	if (chat_id == WP_ROOM)(chat_id == WP_ROOM):
+	if (chat_id == WP_ROOM) or (chat_id == WP_ROOM):
 		# Check user has a profile pic..
 
 		timestamp = datetime.datetime.utcnow()
